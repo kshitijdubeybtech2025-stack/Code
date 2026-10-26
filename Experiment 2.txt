@@ -1,0 +1,514 @@
+Experiment 2
+index.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Personal Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Pure CSS dark-mode checkbox -->
+    <input type="checkbox" id="theme-toggle" class="theme-checkbox">
+
+    <div class="page">
+
+        <!-- Header -->
+        <header class="site-header">
+            <h1>Your Name</h1>
+            <p>Aspiring Web Developer</p>
+        </header>
+
+        <!-- Sticky navigation -->
+        <nav class="navbar" aria-label="Main navigation">
+            <a href="#about">About</a>
+            <a href="#skills">Skills</a>
+            <a href="#education">Education</a>
+            <a href="#projects">Projects</a>
+            <a href="#contact">Contact</a>
+
+            <label for="theme-toggle" class="theme-button">
+                Toggle Dark Mode
+            </label>
+        </nav>
+
+        <main class="container">
+
+            <!-- About section -->
+            <section id="about" class="card about-section">
+                <h2>About Me</h2>
+
+                <img src="images/profile.jpg"
+                     alt="Profile photo"
+                     class="profile-img">
+
+                <p>
+                    I am a student passionate about programming,
+                    web development and building useful projects.
+                    Replace this paragraph with your own introduction.
+                </p>
+            </section>
+
+            <!-- Skills using Flexbox -->
+            <section id="skills" class="card">
+                <h2>Skills</h2>
+
+                <ul class="skills-list">
+                    <li>HTML5</li>
+                    <li>CSS3</li>
+                    <li>JavaScript</li>
+                    <li>Python</li>
+                    <li>Java</li>
+                    <li>Git</li>
+                </ul>
+            </section>
+
+            <!-- Education timeline using CSS Grid -->
+            <section id="education" class="card">
+                <h2>Education</h2>
+
+                <div class="education-grid">
+                    <div class="education-year">2025–2029</div>
+                    <div class="education-detail">
+                        <h3>B.Tech in Computer Science</h3>
+                        <p>Your College Name</p>
+                    </div>
+
+                    <div class="education-year">2023–2025</div>
+                    <div class="education-detail">
+                        <h3>Higher Secondary Education</h3>
+                        <p>Your School Name</p>
+                    </div>
+
+                    <div class="education-year">Earlier</div>
+                    <div class="education-detail">
+                        <h3>Secondary Education</h3>
+                        <p>Your School Name</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Projects table -->
+            <section id="projects" class="card">
+                <h2>Projects</h2>
+
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Project Name</th>
+                                <th>Description</th>
+                                <th>Tech Stack</th>
+                                <th>Link</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            <tr>
+                                <td>To-Do App</td>
+                                <td>A simple task manager</td>
+                                <td>HTML, CSS, JavaScript</td>
+                                <td><a href="https://github.com/">GitHub</a></td>
+                            </tr>
+
+                            <tr>
+                                <td>Portfolio</td>
+                                <td>Personal profile website</td>
+                                <td>HTML, CSS</td>
+                                <td><a href="https://github.com/">GitHub</a></td>
+                            </tr>
+
+                            <tr>
+                                <td>Student Records</td>
+                                <td>Stores student information</td>
+                                <td>Java, SQL</td>
+                                <td><a href="https://github.com/">GitHub</a></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Contact form -->
+            <section id="contact" class="card">
+                <h2>Contact Me</h2>
+
+                <form action="#" method="get">
+                    <label for="contact-name">Name</label>
+                    <input type="text" id="contact-name" name="name"
+                           placeholder="Enter your name" required>
+
+                    <label for="contact-email">Email</label>
+                    <input type="email" id="contact-email" name="email"
+                           placeholder="Enter your email" required>
+
+                    <label for="contact-message">Message</label>
+                    <textarea id="contact-message" name="message"
+                              rows="4" placeholder="Write your message"
+                              required></textarea>
+
+                    <button type="submit">Send</button>
+                </form>
+            </section>
+
+        </main>
+
+        <!-- Footer -->
+        <footer class="site-footer">
+            <p>&copy; 2026 Your Name. All rights reserved.</p>
+        </footer>
+
+    </div>
+</body>
+</html>
+
+style.css
+/* Global reset and box model */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 85px;
+}
+
+body {
+    font-family: "Segoe UI", Arial, sans-serif;
+    line-height: 1.6;
+    background: #eef2f5;
+    color: #263238;
+}
+
+/* CSS custom properties */
+.page {
+    --background: #eef2f5;
+    --surface: #ffffff;
+    --text: #263238;
+    --muted: #5f6b73;
+    --primary: #243b55;
+    --accent: #1976d2;
+    --border: #d5dce2;
+
+    min-height: 100vh;
+    color: var(--text);
+    background: var(--background);
+    transition: background 0.25s, color 0.25s;
+}
+
+/* Dark mode using :checked — no JavaScript */
+#theme-toggle:checked ~ .page {
+    --background: #121820;
+    --surface: #1e2935;
+    --text: #edf2f7;
+    --muted: #c1ccd6;
+    --primary: #101820;
+    --accent: #64b5f6;
+    --border: #42505e;
+}
+
+.theme-checkbox {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    opacity: 0;
+}
+
+/* Header */
+.site-header {
+    padding: 38px 20px;
+    color: white;
+    text-align: center;
+    background: var(--primary);
+}
+
+.site-header h1 {
+    margin-bottom: 6px;
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+}
+
+/* Sticky navigation */
+.navbar {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 8px 20px;
+
+    padding: 12px 16px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+}
+
+.navbar a,
+.theme-button {
+    color: var(--text);
+    text-decoration: none;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.navbar a:hover,
+.navbar a:focus {
+    color: var(--accent);
+    text-decoration: underline;
+}
+
+.theme-button {
+    padding: 5px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+}
+
+/* Main layout */
+.container {
+    width: min(100% - 32px, 1000px);
+    margin: 28px auto;
+}
+
+/* Card and box model */
+.card {
+    margin-bottom: 22px;
+    padding: 24px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+}
+
+.card h2 {
+    margin-bottom: 16px;
+    color: var(--accent);
+}
+
+.card p {
+    color: var(--muted);
+}
+
+/* About section and profile image */
+.about-section {
+    text-align: center;
+}
+
+.profile-img {
+    display: block;
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 16px;
+    object-fit: cover;
+    border: 4px solid var(--surface);
+    border-radius: 50%;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+    animation: profile-entrance 0.9s ease-out both;
+}
+
+/* CSS animation */
+@keyframes profile-entrance {
+    from {
+        opacity: 0;
+        transform: scale(0.85);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Skills using Flexbox */
+.skills-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    list-style: none;
+}
+
+.skills-list li {
+    padding: 8px 16px;
+    color: white;
+    background: #1976d2;
+    border-radius: 22px;
+    transition: transform 0.2s, background 0.2s;
+}
+
+.skills-list li:hover {
+    background: #0d47a1;
+    transform: translateY(-3px);
+}
+
+/* Education timeline using CSS Grid */
+.education-grid {
+    display: grid;
+    grid-template-columns: minmax(100px, 150px) 1fr;
+    gap: 14px 20px;
+}
+
+.education-year {
+    padding: 12px;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    background: #1976d2;
+    border-radius: 6px;
+}
+
+.education-detail {
+    padding: 12px;
+    border-left: 3px solid var(--accent);
+}
+
+.education-detail h3 {
+    margin-bottom: 4px;
+}
+
+/* Projects table */
+.table-wrap {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 8px;
+}
+
+th,
+td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid var(--border);
+}
+
+th {
+    color: white;
+    background: #243b55;
+}
+
+tbody tr:nth-child(even) {
+    background: color-mix(in srgb, var(--surface), var(--text) 5%);
+}
+
+tbody tr:hover {
+    background: color-mix(in srgb, var(--accent), var(--surface) 85%);
+}
+
+table a {
+    color: var(--accent);
+}
+
+/* Contact form */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+input,
+textarea {
+    width: 100%;
+    padding: 11px;
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    font: inherit;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.15);
+}
+
+/* Button and hover effect */
+button {
+    align-self: flex-start;
+    padding: 10px 22px;
+    color: white;
+    background: #198754;
+    border: none;
+    border-radius: 5px;
+    font: inherit;
+    cursor: pointer;
+    transition: background 0.25s, transform 0.2s;
+}
+
+button:hover {
+    background: #11663e;
+    transform: translateY(-1px);
+}
+
+/* Footer */
+.site-footer {
+    padding: 22px;
+    color: white;
+    text-align: center;
+    background: var(--primary);
+}
+
+/* Tablet: up to 768px */
+@media (max-width: 768px) {
+    .container {
+        width: min(100% - 24px, 1000px);
+        margin-top: 18px;
+    }
+
+    .card {
+        padding: 18px;
+    }
+
+    .navbar {
+        gap: 8px 14px;
+    }
+}
+
+/* Mobile: up to 480px */
+@media (max-width: 480px) {
+    .site-header {
+        padding: 28px 12px;
+    }
+
+    .navbar {
+        gap: 10px;
+        padding: 10px;
+    }
+
+    .navbar a,
+    .theme-button {
+        font-size: 0.9rem;
+    }
+
+    .container {
+        width: calc(100% - 16px);
+    }
+
+    .card {
+        padding: 14px;
+    }
+
+    .education-grid {
+        grid-template-columns: 1fr;
+        gap: 8px;
+    }
+
+    .education-detail {
+        margin-bottom: 10px;
+    }
+
+    th,
+    td {
+        padding: 8px;
+        font-size: 0.9rem;
+    }
+}

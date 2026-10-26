@@ -1,0 +1,403 @@
+Experiment 6
+index.html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Registration Form</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+
+    <main class="container">
+        <h1>Registration Form</h1>
+        <p class="intro">
+            Complete the form. All fields are validated in your browser.
+        </p>
+
+        <!-- Registration form -->
+        <form id="regForm" novalidate>
+
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name"
+                   placeholder="Full Name" autocomplete="name" required>
+            <small class="hint">Use 2–40 letters and spaces.</small>
+
+            <label for="email">Email</label>
+            <input type="text" id="email" name="email"
+                   placeholder="Email" autocomplete="email"
+                   aria-describedby="emailStatus" required>
+            <small id="emailStatus" aria-live="polite">
+                Enter your email address.
+            </small>
+
+            <label for="age">Age</label>
+            <input type="number" id="age" name="age"
+                   placeholder="Age" min="1" max="100" required>
+
+            <label for="password">Password</label>
+            <input type="password" id="password" name="password"
+                   placeholder="Password" autocomplete="new-password" required>
+            <small class="hint">
+                At least 8 characters, one number and one special character.
+            </small>
+
+            <label for="confirmPassword">Confirm Password</label>
+            <input type="password" id="confirmPassword"
+                   name="confirmPassword" placeholder="Confirm Password"
+                   autocomplete="new-password" required>
+
+            <label for="bio">Short Bio</label>
+            <textarea id="bio" name="bio" rows="4"
+                      placeholder="Write a short bio"></textarea>
+
+            <div class="button-row">
+                <button type="button" id="submitBtn">Register</button>
+                <button type="button" id="clearBtn" class="secondary">
+                    Clear Form
+                </button>
+            </div>
+
+        </form>
+
+        <!-- Safe output area -->
+        <section class="result" aria-live="polite">
+            <h2>Result</h2>
+            <p id="output"></p>
+            <p id="nickOutput"></p>
+            <p id="feedbackOutput"></p>
+        </section>
+
+        <!-- Prompt-based features -->
+        <div class="button-row extra-buttons">
+            <button type="button" id="nickBtn" class="secondary">
+                Change Nickname
+            </button>
+
+            <button type="button" id="feedbackBtn" class="secondary">
+                Quick Feedback
+            </button>
+        </div>
+
+        <p class="security-note">
+            Client-side validation improves usability but does not replace
+            server-side validation.
+        </p>
+
+    </main>
+
+</body>
+</html>
+
+style.css
+/* Global styling and box model */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 24px 12px;
+    font-family: Arial, Helvetica, sans-serif;
+    line-height: 1.5;
+    color: #263238;
+    background: #edf2f7;
+}
+
+/* Main container */
+.container {
+    width: min(100%, 620px);
+    margin: 0 auto;
+    padding: 26px;
+    background: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 5px 18px rgba(0, 0, 0, 0.1);
+}
+
+/* Headings */
+h1,
+h2 {
+    color: #174a73;
+}
+
+h1 {
+    margin-top: 0;
+    text-align: center;
+}
+
+.intro {
+    text-align: center;
+    color: #536471;
+}
+
+/* Form layout */
+form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+label {
+    margin-top: 8px;
+    font-weight: bold;
+}
+
+/* Input fields */
+input,
+textarea {
+    width: 100%;
+    padding: 11px;
+    border: 1px solid #b7c4ce;
+    border-radius: 5px;
+    font: inherit;
+}
+
+input:focus,
+textarea:focus {
+    outline: 2px solid #5aa5dc;
+    border-color: #1769aa;
+}
+
+/* Help text */
+small {
+    display: block;
+    color: #536471;
+    font-size: 0.85rem;
+}
+
+/* Live email validation */
+#emailStatus.valid {
+    color: #18753b;
+}
+
+#emailStatus.invalid {
+    color: #b42318;
+}
+
+/* Buttons */
+.button-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+button {
+    padding: 10px 16px;
+    color: white;
+    background: #1769aa;
+    border: none;
+    border-radius: 5px;
+    font: inherit;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+button:hover {
+    background: #0e4c80;
+}
+
+button.secondary {
+    color: #174a73;
+    background: #e2edf5;
+    border: 1px solid #b7c4ce;
+}
+
+button.secondary:hover {
+    background: #ccdeeb;
+}
+
+/* Result area */
+.result {
+    margin-top: 24px;
+    padding: 16px;
+    overflow-wrap: anywhere;
+    background: #f5f8fa;
+    border-left: 4px solid #1769aa;
+    border-radius: 5px;
+}
+
+.result h2 {
+    margin-top: 0;
+}
+
+#output,
+#nickOutput,
+#feedbackOutput {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
+
+/* Security note */
+.security-note {
+    margin-top: 20px;
+    color: #536471;
+    font-size: 0.9rem;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 480px) {
+    .container {
+        padding: 18px 14px;
+    }
+
+    .button-row button {
+        flex: 1 1 100%;
+    }
+}
+
+
+script.js
+// EXPERIMENT 6: JavaScript validation and secure form handling
+
+// 1. Sanitize input by escaping HTML-special characters.
+function sanitize(str) {
+    const div = document.createElement("div");
+    div.textContent = String(str);
+    return div.innerHTML;
+}
+
+// 2. Name validation: letters and spaces, 2–40 characters.
+function isValidName(value) {
+    return /^[A-Za-z ]{2,40}$/.test(value.trim());
+}
+
+// 3. Email validation.
+function isValidEmail(value) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value.trim());
+}
+
+// 4. Age validation: whole number between 1 and 100.
+function isValidAge(value) {
+    if (value.trim() === "") {
+        return false;
+    }
+
+    const age = Number(value);
+    return Number.isInteger(age) && age >= 1 && age <= 100;
+}
+
+// 5. Password: minimum 8 characters, one number,
+//    and at least one non-alphanumeric character.
+function isValidPassword(value) {
+    return /^(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/.test(value);
+}
+
+// 6. Live email validation using the input event.
+const emailInput = document.getElementById("email");
+const emailStatus = document.getElementById("emailStatus");
+
+emailInput.addEventListener("input", function () {
+    const email = emailInput.value.trim();
+
+    emailStatus.classList.remove("valid", "invalid");
+
+    if (email === "") {
+        emailStatus.textContent = "Enter your email address.";
+    } else if (isValidEmail(email)) {
+        emailStatus.textContent = "Valid email";
+        emailStatus.classList.add("valid");
+    } else {
+        emailStatus.textContent = "Invalid email";
+        emailStatus.classList.add("invalid");
+    }
+});
+
+// 7. Register button: validate each field and stop at the first error.
+document.getElementById("submitBtn").addEventListener("click", function () {
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const age = document.getElementById("age").value;
+    const password = document.getElementById("password").value;
+    const confirmPassword =
+        document.getElementById("confirmPassword").value;
+    const bio = document.getElementById("bio").value;
+
+    if (!isValidName(name)) {
+        alert("Please enter a valid name using 2–40 letters and spaces.");
+        return;
+    }
+
+    if (!isValidEmail(email)) {
+        alert("Please enter a valid email address.");
+        return;
+    }
+
+    if (!isValidAge(age)) {
+        alert("Age must be a whole number between 1 and 100.");
+        return;
+    }
+
+    if (!isValidPassword(password)) {
+        alert("Password must have at least 8 characters, one number, and one special character.");
+        return;
+    }
+
+    if (confirmPassword !== password) {
+        alert("Password and Confirm Password do not match.");
+        return;
+    }
+
+    // Safe output: escape user input before inserting it as HTML.
+    // Never insert untrusted input directly through innerHTML.
+    const output = document.getElementById("output");
+
+    output.innerHTML =
+        "Welcome, " + sanitize(name.trim()) +
+        "! Your bio: " + sanitize(bio);
+
+    alert("Registration form validated successfully.");
+});
+
+// 8. Change Nickname using prompt().
+document.getElementById("nickBtn").addEventListener("click", function () {
+    const nickname = prompt("Enter a nickname:");
+
+    if (nickname !== null && nickname.trim() !== "") {
+        // textContent safely displays user input as text.
+        document.getElementById("nickOutput").textContent =
+            "Nickname set to: " + nickname.trim();
+    } else if (nickname !== null) {
+        alert("Nickname cannot be empty.");
+    }
+});
+
+// 9. Clear Form using confirm().
+document.getElementById("clearBtn").addEventListener("click", function () {
+    if (confirm("Are you sure you want to clear the form?")) {
+        document.getElementById("regForm").reset();
+
+        document.getElementById("output").textContent = "";
+        document.getElementById("nickOutput").textContent = "";
+        document.getElementById("feedbackOutput").textContent = "";
+
+        emailStatus.textContent = "Enter your email address.";
+        emailStatus.classList.remove("valid", "invalid");
+    }
+});
+
+// 10. Quick Feedback using prompt().
+// Repeats the prompt if the rating is invalid.
+document.getElementById("feedbackBtn").addEventListener("click", function () {
+    while (true) {
+        const answer = prompt("Rate this form from 1 to 5:");
+
+        // Stop if the user presses Cancel.
+        if (answer === null) {
+            return;
+        }
+
+        const ratingText = answer.trim();
+
+        if (/^[1-5]$/.test(ratingText)) {
+            document.getElementById("feedbackOutput").textContent =
+                "Thank you for your feedback! Your rating: " +
+                ratingText + "/5.";
+            break;
+        }
+
+        alert("Invalid rating. Please enter a whole number from 1 to 5.");
+    }
+});

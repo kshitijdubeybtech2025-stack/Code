@@ -1,0 +1,167 @@
+Experiment 1
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My College Life</title>
+</head>
+<body>
+
+    <!-- 1. Headings -->
+    <header>
+        <h1>Welcome to Web Application Development</h1>
+        <h2>Experiment 1 - HTML Basics</h2>
+        <h3>My College Life</h3>
+    </header>
+
+    <!-- 2. Paragraphs -->
+    <section>
+        <h2>About Me</h2>
+        <p>My name is Your Name and I am learning Web Application Development.</p>
+        <p>This webpage demonstrates headings, paragraphs, lists, images,
+           tables, links, iframes and audio.</p>
+    </section>
+
+    <!-- 3. Unordered list -->
+    <section>
+        <h2>My Hobbies</h2>
+        <ul>
+            <li>Reading</li>
+            <li>Coding</li>
+            <li>Cricket</li>
+        </ul>
+    </section>
+
+    <!-- 4. Ordered list -->
+    <section>
+        <h2>Steps to Make Tea</h2>
+        <ol>
+            <li>Boil water</li>
+            <li>Add tea leaves</li>
+            <li>Add milk and sugar</li>
+            <li>Strain and serve</li>
+        </ol>
+    </section>
+
+    <!-- 5. Nested list -->
+    <section>
+        <h2>My Subjects</h2>
+        <ul>
+            <li>Programming
+                <ul>
+                    <li>Java</li>
+                    <li>JavaScript</li>
+                </ul>
+            </li>
+            <li>Computer Science
+                <ul>
+                    <li>Data Structures</li>
+                    <li>Database Management Systems</li>
+                </ul>
+            </li>
+        </ul>
+    </section>
+
+    <!-- 6. Image with caption: keep college.jpg in this folder -->
+    <section>
+        <h2>My College</h2>
+        <figure>
+            <img src="college.jpg" alt="College campus" width="400"
+                 style="max-width:100%; height:auto;">
+            <figcaption>My College Campus</figcaption>
+        </figure>
+    </section>
+
+    <!-- 7. Table: 4 rows total and 3 columns -->
+    <section>
+        <h2>Semester Subjects</h2>
+        <table border="1" cellpadding="8">
+            <caption>Subject Details</caption>
+            <thead>
+                <tr>
+                    <th>Subject</th>
+                    <th>Credits</th>
+                    <th>Semester</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Web Application Development</td>
+                    <td>1</td>
+                    <td>Third</td>
+                </tr>
+                <tr>
+                    <td>Data Structures</td>
+                    <td>4</td>
+                    <td>Third</td>
+                </tr>
+                <tr>
+                    <td>Database Management Systems</td>
+                    <td>4</td>
+                    <td>Third</td>
+                </tr>
+            </tbody>
+        </table>
+    </section>
+
+    <!-- 8. External hyperlink -->
+    <section>
+        <h2>Useful Website</h2>
+        <p>
+            Visit
+            <a href="https://www.symbiosis.ac.in"
+               target="_blank" rel="noopener noreferrer">
+                Symbiosis International University
+            </a>
+        </p>
+    </section>
+
+    <!-- 9. Email hyperlink -->
+    <section>
+        <h2>Contact Me</h2>
+        <p>
+            <a href="mailto:student@example.com">Send Me an Email</a>
+        </p>
+    </section>
+
+    <!-- 10. Embedded webpage -->
+    <section>
+        <h2>Wikipedia</h2>
+        <iframe src="https://www.wikipedia.org"
+                width="600" height="300"
+                title="Wikipedia website"
+                loading="lazy"
+                style="max-width:100%;">
+        </iframe>
+    </section>
+
+    <!-- 11. Google Maps iframe -->
+    <section>
+        <h2>College Location</h2>
+        <iframe
+            src="https://maps.google.com/maps?q=Symbiosis%20Institute%20of%20Technology%20Pune&output=embed"
+            width="600" height="300"
+            title="College location on Google Maps"
+            loading="lazy"
+            style="max-width:100%;"
+            allowfullscreen>
+        </iframe>
+    </section>
+
+    <!-- 12. Audio: keep sample.mp3 in this folder; no autoplay -->
+    <section>
+        <h2>Audio</h2>
+        <audio controls>
+            <source src="sample.mp3" type="audio/mpeg">
+            Your browser does not support the audio element.
+        </audio>
+    </section>
+
+    <!-- 13. Footer -->
+    <footer>
+        <p>&copy; 2026 My College Life</p>
+    </footer>
+
+</body>
+</html>
