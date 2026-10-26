@@ -1,0 +1,330 @@
+Experiment 8
+
+mkdir lab9_email
+cd lab9_email
+npm init -y
+npm install nodemailer dotenv
+code .
+
+create
+.env
+sendmail.js
+.gitignore
+
+
+\
+.gitignore
+.env
+node_modules/
+\
+
+
+\
+.env
+EMAIL_USER=yourgmail@gmail.com
+EMAIL_PASS=your16charapppassword
+\
+
+
+http://myaccount.google.com/u/1/apppasswords?rapt=AEjHL4NQ9jZRRpGAcBBhIe0rr2NsH6gRLEvlRqBA4E3WdHHU1kKhbX3kkoIl_-L8QGEbPCfyP0h-xjLUnyRAdF2X5ZYrkD9JeNH5DE0D5tsLhwn3KYVs46w (16 digit password generation)
+
+
+\
+sendemail.js
+require('dotenv').config();
+const nodemailer = require('nodemailer');
+
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+    }
+});
+
+const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: '*****************************************************************************',
+    subject: 'Automated Email from Node.js Lab',
+    text: 'This email was sent using Node.js and Nodemailer.',
+    html: '<h2>Hello!</h2><p>This email was sent automatically using <b>Nodemailer</b>.</p>'
+};
+
+transporter.sendMail(mailOptions, (err, info) => {
+    if (err) {
+        console.error('Error sending email:', err);
+    } else {
+        console.log('Email sent successfully:', info.response);
+    }
+});
+\
+
+node sendmail.js
+
+
+
+\
+report.txt
+This is my Node.js practical report.
+\
+
+
+\
+sendmail.js
+require('dotenv').config();
+const nodemailer = require('nodemailer');
+
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+    }
+});
+
+const mailOptions = {
+    from: process.env.EMAIL_USER,
+    to: 'sukriti.kapoor.btech2025@sitpune.edu.in',
+    subject: 'Automated Email from Node.js Lab',
+    text: 'This email was sent using Node.js and Nodemailer.',
+    html: '<h2>Hello!</h2><p>This email was sent automatically using <b>Nodemailer</b>.</p>'
+};
+
+mailOptions.attachments = [
+    {
+        filename: 'report.txt',
+        path: __dirname + '/report.txt'
+    }
+];
+transporter.sendMail(mailOptions, (err, info) => {
+    if (err) {
+        console.error('Error sending email:', err);
+    } else {
+        console.log('Email sent successfully:', info.response);
+    }
+}); 
+\
+
+
+node sendmail.js
+
+
+
+\
+server.js
+require('dotenv').config();
+
+const http = require('http');
+const nodemailer = require('nodemailer');
+
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+    }
+});
+
+const server = http.createServer((req, res) => {
+    if (req.method === 'GET' && req.url === '/') {
+        res.writeHead(200, { 'Content-Type': 'text/html' });
+
+        res.end(`
+            <html>
+            <body>
+                <h2>Contact Us</h2>
+
+                <form action="/send" method="POST">
+                    <label>Name:</label>
+                    <input type="text" name="name" required><br><br>
+
+                    <label>Email:</label>
+                    <input type="email" name="email" required><br><br>
+
+                    <label>Message:</label>
+                    <textarea name="message" required></textarea><br><br>
+
+                    <button type="submit">Send Message</button>
+                </form>
+            </body>
+            </html>
+        `);
+    } else if (req.method === 'POST' && req.url === '/send') {
+        let body = '';
+
+        req.on('data', chunk => {
+            body += chunk;
+        });
+
+        req.on('end', async () => {
+            const formData = new URLSearchParams(body);
+
+            const name = formData.get('name');
+            const email = formData.get('email');
+            const message = formData.get('message');
+
+            try {
+                await transporter.sendMail({
+                    from: process.env.EMAIL_USER,
+                    to: process.env.EMAIL_USER,
+                    replyTo: email,
+                    subject: 'New Contact Form Message',
+                    text: `Name: ${name}\nEmail: ${email}\nMessage: ${message}`
+                });
+
+                await transporter.sendMail({
+                    from: process.env.EMAIL_USER,
+                    to: email,
+                    subject: 'Contact Form Confirmation',
+                    text: `Hello ${name}, we received your message. Thank you for contacting us!`
+                });
+
+                res.writeHead(200, { 'Content-Type': 'text/html' });
+                res.end('<h2>Message sent successfully! Check your email.</h2>');
+            } catch (error) {
+                console.error(error);
+                res.writeHead(500, { 'Content-Type': 'text/html' });
+                res.end('<h2>Failed to send email. Please try again.</h2>');
+            }
+        });
+    } else {
+        res.writeHead(404, { 'Content-Type': 'text/html' });
+        res.end('<h2>404 - Page Not Found</h2>');
+    }
+});
+
+server.listen(3000, () => {
+    console.log('Contact form server running at http://localhost:3000');
+});
+\
+
+
+node server.js
+
+
+
+\
+recipient.json
+[
+    {
+        "name": "Rahul",
+        "email": "rahul@example.com"
+    },
+    {
+        "name": "Amit",
+        "email": "amit@example.com"
+    },
+    {
+        "name": "Priya",
+        "email": "priya@example.com"
+    }
+]
+\
+
+
+
+\
+bulkmail.js
+require('dotenv').config();
+
+const fs = require('fs');
+const nodemailer = require('nodemailer');
+
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+    }
+});
+
+const recipients = JSON.parse(
+    fs.readFileSync('recipients.json', 'utf8')
+);
+
+async function sendEmails() {
+    for (const recipient of recipients) {
+        try {
+            await transporter.sendMail({
+                from: process.env.EMAIL_USER,
+                to: recipient.email,
+                subject: 'Personalized Email',
+                html: `<h2>Hello ${recipient.name}!</h2>
+                       <p>This is a personalized email sent using Node.js.</p>`
+            });
+
+            console.log('Email sent to:', recipient.email);
+        } catch (error) {
+            console.log('Failed to send to:', recipient.email);
+        }
+    }
+}
+
+sendEmails();
+\
+
+
+
+node bulkmail.js
+
+
+
+\
+retry.js
+require('dotenv').config();
+
+const fs = require('fs');
+const nodemailer = require('nodemailer');
+
+const transporter = nodemailer.createTransport({
+    service: 'gmail',
+    auth: {
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
+    }
+});
+
+async function sendEmailWithRetry() {
+    const mailOptions = {
+        from: process.env.EMAIL_USER,
+        to: process.env.EMAIL_USER,
+        subject: 'Retry and Logging Test',
+        text: 'Testing email error handling and retry.'
+    };
+
+    for (let attempt = 1; attempt <= 3; attempt++) {
+        const timestamp = new Date().toLocaleString();
+
+        try {
+            await transporter.sendMail(mailOptions);
+
+            fs.appendFileSync(
+                'email-log.txt',
+                `${timestamp} - Attempt ${attempt}: SUCCESS\n`
+            );
+
+            console.log(`Email sent successfully on attempt ${attempt}`);
+            return;
+        } catch (error) {
+            fs.appendFileSync(
+                'email-log.txt',
+                `${timestamp} - Attempt ${attempt}: FAILED - ${error.message}\n`
+            );
+
+            console.log(`Attempt ${attempt} failed.`);
+
+            if (attempt === 3) {
+                console.log('All 3 attempts failed.');
+            }
+        }
+    }
+}
+
+sendEmailWithRetry();
+\
+
+
+
+node retry.js
+
+

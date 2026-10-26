@@ -1,0 +1,228 @@
+Experiment 11
+Database access
+Database users
+
+mongodb+srv://kshitijdubeybtech2025_db_user:<db_password>@cluster0.3x2affl.mongodb.net/
+
+
+mkdir lab14_atlas
+cd lab14_atlas
+npm init -y
+npm install express mongoose dotenv
+code .
+
+create
+.env
+server.js
+models folder (Task.js)
+.gitignore
+
+
+\
+.gitignore
+.env
+node_modules/
+\
+
+
+\
+.env
+MONGO_URI=mongodb+srv://kshitijdubeybtech2025_db_user:kd2811123@cluster0.3x2affl.mongodb.net/labDB
+\
+
+
+
+\
+task.js
+const mongoose = require('mongoose');
+
+const taskSchema = new mongoose.Schema({
+    title: {
+        type: String,
+        required: true
+    },
+    completed: {
+        type: Boolean,
+        default: false
+    },
+    createdAt: {
+        type: Date,
+        default: Date.now
+    }
+});
+
+module.exports = mongoose.model('Task', taskSchema);
+\
+
+
+\
+server.js
+require('dotenv').config();
+
+const express = require('express');
+const mongoose = require('mongoose');
+
+const app = express();
+app.use(express.json());
+
+mongoose.connect(process.env.MONGO_URI)
+    .then(() => console.log('MongoDB Atlas connected successfully'))
+    .catch(err => console.log('MongoDB connection error:', err.message));
+
+app.get('/', (req, res) => {
+    res.send('Task Management API is running');
+});
+
+const PORT = 3000;
+
+app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+});
+\
+
+
+
+node server.js
+
+
+/
+server.js
+require('dotenv').config();
+
+const express = require('express');
+const mongoose = require('mongoose');
+const Task = require('./models/Task');
+
+const app = express();
+
+app.use(express.json());
+
+mongoose.connect(process.env.MONGO_URI)
+    .then(() => console.log('MongoDB Atlas connected successfully'))
+    .catch(err => console.log('MongoDB connection error:', err.message));
+
+// HOME ROUTE
+app.get('/', (req, res) => {
+    res.send('Task Management API is running');
+});
+
+// CREATE TASK
+app.post('/tasks', async (req, res) => {
+    try {
+        const task = new Task(req.body);
+        await task.save();
+        res.status(201).json(task);
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+});
+
+// READ ALL TASKS
+app.get('/tasks', async (req, res) => {
+    try {
+        const tasks = await Task.find();
+        res.json(tasks);
+    } catch (err) {
+        res.status(500).json({ error: err.message });
+    }
+});
+
+// READ TASK BY ID
+app.get('/tasks/:id', async (req, res) => {
+    try {
+        const task = await Task.findById(req.params.id);
+
+        if (!task) {
+            return res.status(404).json({ message: 'Task not found' });
+        }
+
+        res.json(task);
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+});
+
+// UPDATE TASK
+app.put('/tasks/:id', async (req, res) => {
+    try {
+        const task = await Task.findByIdAndUpdate(
+            req.params.id,
+            req.body,
+            { new: true, runValidators: true }
+        );
+
+        if (!task) {
+            return res.status(404).json({ message: 'Task not found' });
+        }
+
+        res.json(task);
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+});
+
+// DELETE TASK
+app.delete('/tasks/:id', async (req, res) => {
+    try {
+        const task = await Task.findByIdAndDelete(req.params.id);
+
+        if (!task) {
+            return res.status(404).json({ message: 'Task not found' });
+        }
+
+        res.json({ message: 'Task deleted successfully' });
+    } catch (err) {
+        res.status(400).json({ error: err.message });
+    }
+});
+
+const PORT = 3000;
+
+app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+});
+\
+
+
+
+POST
+http://localhost:3000/tasks
+raw
+JSON
+\
+{
+  "title": "Complete WAD Experiment 11",
+  "completed": false
+}
+\
+
+
+GET (Read All Tasks)
+http://localhost:3000/tasks
+Body → none
+
+
+
+GET (Read One Task by ID)
+http://localhost:3000/tasks/6adeaa0b52514f8aa7f16fad
+
+
+PUT
+http://localhost:3000/tasks/6adeaa0b52514f8aa7f16fad
+Body → raw → JSON
+\
+{
+    "title": "Complete WAD Experiment 11",
+    "completed": true
+}
+\
+
+
+DELETE
+http://localhost:3000/tasks/6adeaa0b52514f8aa7f16fad
+\
+{
+    "message": "Task deleted successfully"
+}
+\
+

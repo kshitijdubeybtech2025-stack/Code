@@ -1,0 +1,126 @@
+Experiment 12
+
+git --version
+java -version
+javac -version
+
+folder
+MyWebApp
+New → Text Document
+index.html
+
+
+\
+index.html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Web Application</title>
+</head>
+<body>
+    <h1>Hello from Git, Jenkins and Tomcat!</h1>
+    <p>This is my first web application.</p>
+</body>
+</html>
+\
+
+
+
+cmd
+cd C:\Users\Kshitij\MyWebApp
+git init
+git add .
+git commit -m "Initial commit"
+
+
+create a GitHub repository(random)
+Code → HTTPS (copy url- https://github.com/YOUR_USERNAME/MyWebApp.git)
+
+
+cmd
+cd C:\Users\Kshitij\MyWebApp
+git remote add origin https://github.com/YOUR_USERNAME/MyWebApp.git (**)
+git branch -M main
+git push -u origin main
+
+Jenkins
+Create a job
+job name MyWebApp
+Freestyle project and click OK.
+Under Source Code Management, select Git.	
+Enter your GitHub repository URL
+Set the branch to */main.
+Under Build Steps, select Execute Windows batch command.
+\
+echo Building MyWebApp
+dir
+\
+
+
+
+Apache
+Step 11: Configure Tomcat's Port
+Jenkins commonly uses port 8080. To avoid a port conflict, configure Tomcat to use 8081.
+1. Open Tomcat's conf folder.
+2. Open server.xml in Notepad.
+3. Find the connector configuration containing:
+port="8080"
+
+4. Change that connector's port to:
+port="8081"
+
+5. Save the file.
+Important: Change the HTTP Connector port, not the shutdown port.
+Step 12: Start Tomcat
+1. Open Command Prompt.
+2. Navigate to Tomcat's bin folder. Replace the path below with your actual extracted folder name:
+cd C:\Tomcat\apache-tomcat-10.x.x\bin
+
+3. Start Tomcat:
+catalina.bat run
+
+4. Keep the Command Prompt window open.
+5. Open this address in your browser:
+Tomcat Local Server
+
+You should see the Tomcat welcome page.
+Step 13: Deploy Your Web Application
+Copy your project folder into Tomcat's webapps directory.
+
+Your application should be located at:
+C:\Tomcat\apache-tomcat-10.x.x\webapps\MyWebApp\index.html
+
+Your index.html file should contain:
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Web Application</title>
+</head>
+<body>
+    <h1>Hello from Git, Jenkins and Tomcat!</h1>
+    <p>This is my first web application.</p>
+</body>
+</html>
+
+Open the application:
+
+MyWebApp on Tomcat
+
+You should see your HTML page.
+Step 14: Update the Application and Test Git
+Open index.html in your original project folder:
+
+C:\Users\Kshitij\MyWebApp\index.html
+
+Replace the heading with:
+<h1>Updated Web Application</h1>
+
+Save the file.
+
+Open CMD and run:
+cd C:\Users\Kshitij\MyWebApp
+git add .
+git commit -m "Updated web application"
+git push
+
+Refresh your GitHub repository and confirm the change.
